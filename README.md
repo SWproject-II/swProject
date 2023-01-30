@@ -1,5 +1,5 @@
 # About
-Project for Software project 2 at Haaga-Helia University of Applied Sciences
+Project for Software project 2 course at Haaga-Helia University of Applied Sciences
 
 ## Development team
 - Ahokas Alisa | @Viktorialissa
