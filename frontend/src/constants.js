@@ -1,0 +1,1 @@
+export const API_getDetection = "http://localhost:5000/api/detection";

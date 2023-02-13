@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
+import './App.css';
+import Face from './components/face'
 
-const App = () => {
-  const [detection, setDetection] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/detection")
-      .then((response) => response.json())
-      .then((data) => setDetection(data.detection))
-      .catch((error) => console.error(error));
-  }, []);
-
+function App() {
   return (
-    <div>
-      <h1>{detection}</h1>
+    <div className="App">
+ Facial recognition
+ <Face/>
     </div>
   );
-};
+}
 
 export default App;
