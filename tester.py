@@ -12,7 +12,11 @@ def detection():
     print(names)
 
     # Return the recognition results as a JSON response
-    return jsonify({'detection': names[0]})
+
+    return jsonify({'detection': names})
+
+
+
     print("json")
 
 if __name__ == '__main__':

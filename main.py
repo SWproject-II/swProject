@@ -68,7 +68,6 @@ for index, row in pred.iterrows():
 print(names[0])
 
 # show detection bounding boxes on image
-results.show()
 
 # save results into "results/" folder
 # results.save(save_dir='')
