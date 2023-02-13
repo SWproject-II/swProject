@@ -65,6 +65,8 @@ names = []
 for index, row in pred.iterrows():
     names.append(row['name'])
 
+print(names[0])
+
 # show detection bounding boxes on image
 results.show()
 
