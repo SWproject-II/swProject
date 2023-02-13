@@ -2,7 +2,7 @@ import yolov5
 import cv2
 
 # load pretrained model
-model = yolov5.load('face.pt')
+model = yolov5.load('face1.3.pt')
 
 # set model parameters
 model.conf = 0.5  # NMS confidence threshold
@@ -57,6 +57,13 @@ predictions = results.pred[0]
 boxes = predictions[:, :4]  # x1, y1, x2, y2
 scores = predictions[:, 4]
 categories = predictions[:, 5]
+
+print(results.pandas().xyxy[0])
+
+pred = results.pandas().xyxy[0]
+names = []
+for index, row in pred.iterrows():
+    names.append(row['name'])
 
 # show detection bounding boxes on image
 results.show()
