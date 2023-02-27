@@ -1,1 +1,4 @@
-yolov5
+yolov5~=7.0.9
+
+opencv-python~=4.7.0.68
+Flask~=2.2.2
