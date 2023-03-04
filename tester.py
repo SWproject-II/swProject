@@ -7,13 +7,14 @@ app = Flask(__name__)
 CORS(app)
 
 db = mysql.connector.connect(
-  host="localhost",
-  user="tome",
-  password="root",
-  database="testi"
+    host="localhost",
+    user="tome",
+    password="root",
+    database="testi"
 )
 
 mycursor = db.cursor()
+
 
 @app.route('/api/detection', methods=['GET'])
 def detection():

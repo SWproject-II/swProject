@@ -11,8 +11,6 @@ model.agnostic = False  # NMS class-agnostic
 model.multi_label = False  # NMS multiple labels per box
 model.max_det = 1000  # maximum number of detections per image
 
-
-
 # Create a window to display the webcam feed
 cv2.namedWindow("Webcam")
 

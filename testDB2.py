@@ -7,16 +7,16 @@ db = mysql.connector.connect(
     database='testibase'
 )
 
-mycursor=db.cursor()
+mycursor = db.cursor()
 
-#mycursor.execute("INSERT INTO person (name, age, personID) VALUES ('pauli', 100, 1)")
+# mycursor.execute("INSERT INTO person (name, age, personID) VALUES ('pauli', 100, 1)")
 mycursor.execute("SELECT * FROM person WHERE name='pauli'")
 
 data = mycursor.fetchone()
 
-#closing db
+# closing db
 mycursor.close()
 db.close()
 
-#printing data
+# printing data
 print(data)
