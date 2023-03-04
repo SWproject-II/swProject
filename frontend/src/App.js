@@ -1,10 +1,10 @@
-import './App.css';
-import TabApp from './Tab';
+import "./App.css";
+import TabApp from "./Tab";
 
 function App() {
   return (
     <div className="App">
- <TabApp/>
+      <TabApp />
     </div>
   );
 }
