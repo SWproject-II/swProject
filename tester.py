@@ -32,7 +32,5 @@ def detection():
     return jsonify({'detection': data})
 
 
-    print("json")
-
 if __name__ == '__main__':
     app.run()
