@@ -1,13 +1,36 @@
 import sqlite3
+import random
 
-with sqlite3.connect('mydatabase.db') as conn:
-    # Select all data from the person table
-    cursor = conn.execute("SELECT * FROM person")
-    data = cursor.fetchall()
+# Create a connection to the database
+conn = sqlite3.connect('mydatabase.db')
 
-    # Print the data for each person
-    for person in data:
-        print("ID:", person[0])
-        print("Name:", person[1])
-        print("Age:", person[2])
-        print("Item:", person[3])
+# Create the person table
+conn.execute('''CREATE TABLE person
+             (id INTEGER PRIMARY KEY,
+              name TEXT,
+              age INTEGER,
+              item TEXT)''')
+
+# Define the names to be inserted
+names = ['Pauli', 'Alisa', 'Jyri', 'Aki', 'Sauli']
+
+# Define a function to generate random ages
+def generate_age():
+    return random.randint(20, 30)
+
+# Define a function to generate random items
+def generate_item():
+    items = ['phone', 'laptop', 'watch', 'guitar']
+    return random.choice(items)
+
+# Insert the data for each person
+for name in names:
+    age = generate_age()
+    item = generate_item()
+    conn.execute("INSERT INTO person (name, age, item) VALUES (?, ?, ?)", (name, age, item))
+
+# Commit the changes to the database
+conn.commit()
+
+# Close the connection to the database
+conn.close()
