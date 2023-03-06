@@ -5,21 +5,31 @@ import { MOCK_API } from "../Constants";
 export default function Table() {
   const [test, setTest] = useState([]);
 
-  const Columns = [
+  const columns = [
     {
       name: "Id",
       selector: (row) => row.id,
       sortable: true,
+      center: true,
+      reorder: true,
+      hide: "sm",
+      style: { background: "lightblue", fontWeight: "bold" },
     },
     {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
+      center: true,
+      reorder: true,
+      style: { fontWeight: "bold" },
     },
     {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
+      center: true,
+      reorder: true,
+      style: { background: "lightblue", fontWeight: "bold" },
     },
   ];
 
@@ -35,7 +45,7 @@ export default function Table() {
 
   return (
     <div className="container mt-5">
-      <DataTable columns={Columns} data={test}></DataTable>
+      <DataTable columns={columns} data={test}></DataTable>
     </div>
   );
 }
