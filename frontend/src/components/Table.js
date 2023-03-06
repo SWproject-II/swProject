@@ -24,6 +24,22 @@ export default function Table() {
       style: { fontWeight: "bold" },
     },
     {
+      name: "Age",
+      selector: (row) => row.age,
+      sortable: true,
+      center: true,
+      reorder: true,
+      style: { background: "lightblue", fontWeight: "bold" },
+    },
+    {
+      name: "GitHub",
+      selector: (row) => row.github,
+      sortable: true,
+      center: true,
+      reorder: true,
+      style: { fontWeight: "bold" },
+    },
+    {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
