@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Face from "./face";
-import Table from "./table";
+import Face from "./Face";
+import Table from "./Table";
 
 export default function TabApp() {
   const [tab, setTab] = useState("Home");

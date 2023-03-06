@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { MOCK_API } from "../constants";
+import { MOCK_API } from "../Constants";
 
 export default function Table() {
   const [test, setTest] = useState([]);

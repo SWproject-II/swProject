@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { API_getDetection } from "../constants";
+import { API_getDetection } from "../Constants";
 
 export default function Face() {
   const [detection, setDetection] = useState("");
