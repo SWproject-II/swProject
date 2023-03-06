@@ -9,16 +9,19 @@ export default function Table() {
     const Columns = [
         {
             name: 'Id',
-            selector: row => row.id
+            selector: row => row.id,
+            sortable: true
 
         },
         {
             name: 'Name',
-            selector: row => row.name
+            selector: row => row.name,
+            sortable: true
         },
         {
             name: 'Status',
-            selector: row => row.status
+            selector: row => row.status,
+            sortable: true
         }
     ]
 
