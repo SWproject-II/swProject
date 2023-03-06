@@ -39,14 +39,6 @@ def detection():
 
     print(reservation_data)
 
-
-    # find data with queries
-    # use person_id and game_id to create a new reservation query
-
-    # query for person, save data to variable
-    # query for reservations with person id, save data to variable
-
-    # add person data and reservation data to api/detections
     data = []
     for name in names:
         c.execute("SELECT * FROM person WHERE name=?", (name,))
