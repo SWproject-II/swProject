@@ -1,3 +1,4 @@
+import main.py
 from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
@@ -13,7 +14,8 @@ c = conn.cursor()
 @app.route('/api/detection', methods=['GET'])
 def detection():
     # Call the main.py script
-    names = ['Pauli', 'Alisa']
+    names = main.names
+    # ['pauli', 'monopoly']
     print(names)
 
     # Loop over the names and query the database for each one
@@ -21,9 +23,9 @@ def detection():
     for name in names:
         c.execute("SELECT * FROM person WHERE name=?", (name,))
         results = c.fetchall()
-        print(results)  # Add this line to check the query results
         for result in results:
             data.append(result)
+
 
     # Return the recognition results as a JSON response
     return jsonify({'detection': data})
