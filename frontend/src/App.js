@@ -1,13 +1,12 @@
 import "./App.css";
-import Face from "./components/face";
-import TabApp from "./Tab";
+import TabApp from "./components/Tab";
 
 function App() {
   return (
     <div className="App">
-      Facial recognition
       <TabApp />
     </div>
   );
 }
+
 export default App;
