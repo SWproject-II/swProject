@@ -28,5 +28,6 @@ for table_name in tables:
         print(row)
     print()  # Add an empty line for readability
 
+
 # Close the connection
 conn.close()
