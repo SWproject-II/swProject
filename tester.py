@@ -8,6 +8,7 @@ CORS(app)
 conn = sqlite3.connect('mydatabase.db', check_same_thread=False)
 c = conn.cursor()
 
+
 @app.route('/api/detection', methods=['GET'])
 def detection():
     # Call the main.py script
@@ -21,7 +22,6 @@ def detection():
     c.execute("SELECT * FROM game WHERE name=?", (names[1],))
     game_data = c.fetchone()
 
-
     # Retrieve game data
     c.execute("SELECT * FROM game WHERE name=?", (names[2],))
     game_data2 = c.fetchone()
@@ -31,10 +31,12 @@ def detection():
     conn.commit()
 
     # Insert reservation data
-    c.execute("INSERT INTO reservation (id, person_id, game_id, start_date, end_date) VALUES (?, ?, ?, '06032023', '07032023')",
-              (1, person_data[0], game_data[0]))
-    c.execute("INSERT INTO reservation (id, person_id, game_id, start_date, end_date) VALUES (?, ?, ?, '06032023', '07032023')",
-              (2, person_data[0], game_data2[0]))
+    c.execute(
+        "INSERT INTO reservation (id, person_id, game_id, start_date, end_date) VALUES (?, ?, ?, '06032023', '07032023')",
+        (1, person_data[0], game_data[0]))
+    c.execute(
+        "INSERT INTO reservation (id, person_id, game_id, start_date, end_date) VALUES (?, ?, ?, '06032023', '07032023')",
+        (2, person_data[0], game_data2[0]))
     conn.commit()
 
     c.execute("SELECT * FROM reservation")
@@ -42,9 +44,8 @@ def detection():
 
     print(reservation_data)
 
-
     # Create a list to store the reservation data
-    data = []
+    reservations = []
     for row in reservation_data:
         # Create a dictionary to store the reservation data labeled by their names
         reservation = {
@@ -55,16 +56,24 @@ def detection():
             'end_date': row[4]
         }
 
-        # 
+        reservations.append(reservation)
 
+    # Create a dictionary to store person data
+    person = {
+        'id': person_data[0],
+        'name': person_data[1],
+        'age': person_data[2],
+    }
 
-
-        # Append the reservation data to the list
-        data.append(reservation)
-        data.append(person)
+    # Create a dictionary to store the data
+    data = {
+        'reservations': reservations,
+        'person': person,
+    }
 
     # Return the reservation data as a JSON response
-    return jsonify({'reservations': data})
+    return jsonify({'data': data})
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
