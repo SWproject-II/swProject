@@ -12,8 +12,7 @@ c = conn.cursor()
 @app.route('/api/detection', methods=['GET'])
 def detection():
     # Call the main.py script
-
-    names = ['Pauli', 'Monopoly', 'Alias']
+    names = ['Pauli', "Monopoly", "Alias"]
     # Retrieve person data
     c.execute("SELECT * FROM person WHERE name=?", (names[0],))
     person_data = c.fetchone()
@@ -39,7 +38,9 @@ def detection():
         (2, person_data[0], game_data2[0]))
     conn.commit()
 
-    c.execute("SELECT * FROM reservation")
+    # Retrieve reservation data with game names
+    c.execute(
+        "SELECT reservation.id, person_id, game.name, start_date, end_date FROM reservation JOIN game ON reservation.game_id = game.id")
     reservation_data = c.fetchall()
 
     print(reservation_data)
@@ -51,7 +52,7 @@ def detection():
         reservation = {
             'id': row[0],
             'person_id': row[1],
-            'game_id': row[2],
+            'game_name': row[2],
             'start_date': row[3],
             'end_date': row[4]
         }

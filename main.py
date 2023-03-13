@@ -2,14 +2,7 @@ import yolov5
 import cv2
 
 # load pretrained model
-model = yolov5.load('face1.3.pt')
-
-# set model parameters
-model.conf = 0.5  # NMS confidence threshold
-model.iou = 0.45  # NMS IoU threshold
-model.agnostic = False  # NMS class-agnostic
-model.multi_label = False  # NMS multiple labels per box
-model.max_det = 1000  # maximum number of detections per image
+model = yolov5.load('face1.4.pt')
 
 # Create a window to display the webcam feed
 cv2.namedWindow("Webcam")
@@ -63,9 +56,9 @@ names = []
 for index, row in pred.iterrows():
     names.append(row['name'])
 
-print(names[0])
+print(names)
 
 # show detection bounding boxes on image
-
+results.show()
 # save results into "results/" folder
 # results.save(save_dir='')
