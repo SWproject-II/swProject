@@ -16,7 +16,7 @@ export default function Face() {
       <div>
         {" "}
         <p>
-          {detection[0]} ja {detection[1]}
+          {detection[0]}detection 1 ja detection 2 {detection[1]}
         </p>
       </div>
     </>
