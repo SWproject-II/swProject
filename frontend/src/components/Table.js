@@ -50,13 +50,17 @@ export default function Table() {
   ];
 
   useEffect(() => {
-    fetch(MOCK_API)
-      .then((response) => {
-        if (response.ok) return response.json();
-        else alert("error");
-      })
-      .then((data) => setTest(data.faces))
-      .catch((err) => console.error(err));
+    const interval = setInterval(() => {
+      fetch(MOCK_API)
+        .then((response) => {
+          if (response.ok) return response.json();
+          else alert("error");
+        })
+        .then((data) => setTest(data.faces))
+        .catch((err) => console.error(err));
+    }, 1000); // change to 60000 for once per minute
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
