@@ -1,9 +1,11 @@
 import io
 from PIL import Image
 from flask import Flask, request
+from flask_cors import CORS
 import yolov5
 
 app = Flask(__name__)
+CORS(app)
 
 # load pretrained model
 model = yolov5.load('face1.4.pt')
