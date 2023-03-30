@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { Button } from "@mui/material/";
 
 export default function ImageUploader(props) {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
+  const [fileName, setFileName] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+    setFileName(event.target.files[0].name);
   };
 
   const handleSubmit = (event) => {
@@ -31,10 +34,17 @@ export default function ImageUploader(props) {
   return (
     <div>
       <h1>Upload image for recognition</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleFileChange} />
-        <button type="submit">Upload</button>
-      </form>
+      {/* <Input type="file" placeholder="Select image" onChange={handleFileChange}>
+        Select image
+      </Input> */}
+      <Button variant="contained" color="info" component="label">
+        Select image
+        <input type="file" onChange={handleFileChange} hidden />
+      </Button>
+      <p>Selected file: {fileName}</p>
+      <Button variant="contained" color="success" onClick={handleSubmit}>
+        Upload
+      </Button>
       {result && (
         <ul>
           {result.map((name, index) => (
