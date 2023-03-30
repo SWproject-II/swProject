@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -11,8 +12,9 @@ c = conn.cursor()
 
 @app.route('/api/detection', methods=['GET'])
 def detection():
-    # Call the main.py script
-    names = ['Pauli', "Monopoly", "Alias"]
+
+    names = ['Pauli', "Monopoly"]
+
     # Retrieve person data
     c.execute("SELECT * FROM person WHERE name=?", (names[0],))
     person_data = c.fetchone()
@@ -21,34 +23,35 @@ def detection():
     c.execute("SELECT * FROM game WHERE name=?", (names[1],))
     game_data = c.fetchone()
 
-    # Retrieve game data
-    c.execute("SELECT * FROM game WHERE name=?", (names[2],))
-    game_data2 = c.fetchone()
+    # Calculate start and end dates
+    start_date = datetime.datetime.now().strftime('%d%m%Y')
+    end_date = (datetime.datetime.now() + datetime.timedelta(days=14)).strftime('%d%m%Y')
 
-    # Delete all rows in the reservation table
-    c.execute("DELETE FROM reservation;")
-    conn.commit()
+    # Check if there is an ongoing reservation for the same person and game
+    c.execute("SELECT * FROM reservation WHERE person_id=? AND game_id=? AND is_ongoing=1", (person_data[0], game_data[0]))
+    ongoing_reservation = c.fetchone()
 
-    # Insert reservation data
-    c.execute(
-        "INSERT INTO reservation (id, person_id, game_id, start_date, end_date) VALUES (?, ?, ?, '06032023', '07032023')",
-        (1, person_data[0], game_data[0]))
-    c.execute(
-        "INSERT INTO reservation (id, person_id, game_id, start_date, end_date) VALUES (?, ?, ?, '06032023', '07032023')",
-        (2, person_data[0], game_data2[0]))
+    if ongoing_reservation:
+        # If there is an ongoing reservation, update its is_ongoing column to False
+        c.execute("UPDATE reservation SET is_ongoing=0 WHERE id=?", (ongoing_reservation[0],))
+    else:
+        # If there isn't an ongoing reservation, insert a new reservation
+        c.execute(
+            "INSERT INTO reservation (person_id, game_id, start_date, end_date, is_ongoing) VALUES (?, ?, ?, ?, ?)",
+            (person_data[0], game_data[0], start_date, end_date, 1))
+
     conn.commit()
 
     # Retrieve reservation data with game names
     c.execute(
-        "SELECT reservation.id, person_id, game.name, start_date, end_date FROM reservation JOIN game ON reservation.game_id = game.id")
+        "SELECT reservation.id, person_id, game.name, start_date, end_date FROM reservation JOIN game ON reservation.game_id = game.id WHERE reservation.person_id=?", (person_data[0],))
     reservation_data = c.fetchall()
 
     print(reservation_data)
 
-    # Create a list to store the reservation data
+    # Create a list to store the reservation data and person data
     reservations = []
     for row in reservation_data:
-        # Create a dictionary to store the reservation data labeled by their names
         reservation = {
             'id': row[0],
             'person_id': row[1],
@@ -59,14 +62,12 @@ def detection():
 
         reservations.append(reservation)
 
-    # Create a dictionary to store person data
     person = {
         'id': person_data[0],
         'name': person_data[1],
         'age': person_data[2],
     }
 
-    # Create a dictionary to store the data
     data = {
         'reservations': reservations,
         'person': person,

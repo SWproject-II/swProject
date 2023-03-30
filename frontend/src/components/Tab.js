@@ -7,7 +7,7 @@ import Table from "./Table";
 export default function TabApp() {
   const [tab, setTab] = useState("Home");
 
-  const handleChange = (event, value) => {
+  const handleChange = (_, value) => {
     setTab(value);
   };
   return (
