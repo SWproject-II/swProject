@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Face from "./Face";
 import Table from "./Table";
+import ImageUploader from "./ImageUploader";
 
 export default function TabApp() {
   const [tab, setTab] = useState("Home");
@@ -16,6 +17,7 @@ export default function TabApp() {
         <Tab value="Home" label="Home" />
         <Tab value="Face" label="Facial recognition" />
         <Tab value="Test" label="Test data" />
+        <Tab value="Image" label="Image upload" />
       </Tabs>
       {tab === "Home" && (
         <div
@@ -34,6 +36,7 @@ export default function TabApp() {
       )}
       {tab === "Face" && <Face />}
       {tab === "Test" && <Table />}
+      {tab === "Image" && <ImageUploader />}
     </div>
   );
 }

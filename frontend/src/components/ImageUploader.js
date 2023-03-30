@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ImageUploader(props) {
+export default function ImageUploader(props) {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
 
@@ -30,6 +30,7 @@ function ImageUploader(props) {
 
   return (
     <div>
+      <h1>Upload image for recognition</h1>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
         <button type="submit">Upload</button>
@@ -44,5 +45,3 @@ function ImageUploader(props) {
     </div>
   );
 }
-
-export default ImageUploader;

@@ -1,16 +1,11 @@
 import "./App.css";
-import TabApp from "./components/Tab";
+import TabApp from "./components/TabApp";
 import React from "react";
-import ReactDOM from "react-dom";
-import ImageUploader from "./components/ImageUploader";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <TabApp />
-      <ImageUploader />
     </div>
   );
 }
-
-export default App;

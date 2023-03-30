@@ -10,7 +10,7 @@ import {
   Paper,
 } from "@mui/material";
 
-function ReservationTable() {
+export default function ReservationTable() {
   const [person, setPerson] = useState({});
   const [reservations, setReservations] = useState([]);
 
@@ -54,5 +54,3 @@ function ReservationTable() {
     </>
   );
 }
-
-export default ReservationTable;
