@@ -2,7 +2,7 @@ import yolov5
 import cv2
 
 # load pretrained model
-model = yolov5.load('face1.4.pt')
+model = yolov5.load('face1.6.pt')
 
 # Create a window to display the webcam feed
 cv2.namedWindow("Webcam")
