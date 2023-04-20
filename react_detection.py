@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # load pretrained model
-model = yolov5.load('face1.6.pt')
+model = yolov5.load('games2.2.pt')
 
 
 @app.route('/predict', methods=['POST'])
