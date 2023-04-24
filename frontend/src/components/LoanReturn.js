@@ -1,7 +1,6 @@
 import React from "react";
 import { Button }  from "@mui/material";
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import Webcam from "react-webcam";
 
 const LoanReturn = () => {
@@ -10,16 +9,13 @@ const LoanReturn = () => {
   const [showWebcam, setShowWebcam] = useState(false);
   const [screenshot, setScreenshot] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
-
   const [result, setResult] = useState(null);
 
   const handleSubmit = (event) => {
-    console.log("TÄSSÄ ON IMAGE "  + capturedImage)
     event.preventDefault();
-    console.log("MOI")
     const formData = new FormData();
     formData.append("image", capturedImage);
-
+    console.log("FORMDATA " + formData)
     fetch("http://localhost:5002/predict", {
       method: "POST",
       body: formData,
@@ -34,12 +30,25 @@ const LoanReturn = () => {
       });
   };
 
+  // Convert base64 image string to file object
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  };
+
   const handleLoan = async () => {
     if (showWebcam) {
       const newScreenshot = webcamRef.current.getScreenshot();
       setScreenshot(newScreenshot);
       setShowWebcam(false);
-       setCapturedImage(newScreenshot);
+      const file = dataURItoBlob(newScreenshot);
+      setCapturedImage(file);
       //  handleSubmit();
     }else {
       setShowWebcam(true);
@@ -60,7 +69,7 @@ const LoanReturn = () => {
         You can loan a board game here or return one. 
       </p>
 
-      {showWebcam && <Webcam audio={false} ref={webcamRef} />}
+      {showWebcam && <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />}
       {screenshot && (
         <img src={screenshot} alt="screenshot" style={{ maxWidth: "100%" }} />
       )}
