@@ -6,6 +6,7 @@ import Table from "./Table";
 import ImageUploader from "./ImageUploader";
 import ContactPage from "./Contact";
 import AboutUsPage from "./AboutUs";
+import LoanReturn from "./LoanReturn";
 
 export default function TabApp() {
   const [tab, setTab] = useState("Home");
@@ -16,6 +17,7 @@ export default function TabApp() {
   return (
     <div>
       <Tabs value={tab} onChange={handleChange}>
+        <Tab value="LoanReturn" label="Loan and return" />
         <Tab value="Home" label="Home" />
         <Tab value="Face" label="Facial recognition" />
         <Tab value="Test" label="Test data" />
@@ -42,13 +44,15 @@ export default function TabApp() {
             {/* Normal text added below */}
             <p>This is some normal text under the homepage text.</p>
           </div>
+          {/* <LoanReturn /> */}
         </div>
       )}
+      {tab === "LoanReturn" && <LoanReturn/>}
       {tab === "Face" && <Face />}
       {tab === "Test" && <Table />}
       {tab === "Image" && <ImageUploader />}
       {tab === "Contact" && <ContactPage />}
-      {tab === "AboutUs" && <AboutUsPage/>}
+      {tab === "AboutUs" && <AboutUsPage />}
     </div>
   );
 }
