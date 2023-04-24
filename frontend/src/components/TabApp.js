@@ -7,6 +7,7 @@ import ImageUploader from "./ImageUploader";
 import ContactPage from "./Contact";
 import AboutUsPage from "./AboutUs";
 import LoanReturn from "./LoanReturn";
+import ImageUploader2 from "./ImageUploader2";
 
 export default function TabApp() {
   const [tab, setTab] = useState("Home");
@@ -48,7 +49,7 @@ export default function TabApp() {
       )}
       {tab === "Face" && <Face />}
       {tab === "Test" && <Table />}
-      {tab === "Image" && <ImageUploader />}
+      {tab === "Image" && <ImageUploader2 />}
       {tab === "Contact" && <ContactPage />}
       {tab === "AboutUs" && <AboutUsPage />}
     </div>
