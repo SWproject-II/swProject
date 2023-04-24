@@ -1,5 +1,5 @@
 import React from "react";
-import { Button }  from "@mui/material";
+import { Button } from "@mui/material";
 import { useRef, useState } from "react";
 import Webcam from "react-webcam";
 
@@ -50,9 +50,10 @@ const LoanReturn = () => {
       const file = dataURItoBlob(newScreenshot);
       setCapturedImage(file);
       //  handleSubmit();
-    }else {
+    } else {
       setShowWebcam(true);
       setScreenshot(null); // reset the screenshot when the camera is opened again
+      setCapturedImage(null)
     }
   };
 
@@ -66,19 +67,23 @@ const LoanReturn = () => {
     <div>
       <h1>Loan or return a board game</h1>
       <p>
-        You can loan a board game here or return one. 
+        You can loan a board game here or return one.
       </p>
-
-      {showWebcam && <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />}
-      {screenshot && (
-        <img src={screenshot} alt="screenshot" style={{ maxWidth: "100%" }} />
-      )}
-
-      <Button variant="contained" color="success" onClick={handleLoan}>
-        {showWebcam ? "Take Picture" : "Loan"}
-      </Button>
-      {/* <Button variant="contained" color="error" onPress={handleReturn}>Return</Button> */}
-      <Button variant="contained" color="success" onClick={handleSubmit}> SEND</Button>
+      <div>
+        {showWebcam && <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />}
+        {screenshot && (
+          <img src={screenshot} alt="screenshot" style={{ maxWidth: "100%" }} />
+        )}
+      </div>
+      <div>
+        <Button variant="contained" color="success" onClick={handleLoan}>
+          {showWebcam ? "Take Picture" : "Loan"}
+        </Button>
+        {/* <Button variant="contained" color="error" onPress={handleReturn}>Return</Button> */}
+        <Button variant="contained" color="success" disabled={capturedImage === null} onClick={handleSubmit}>
+          Send
+        </Button>
+      </div>
       {result && (
         <ul>
           {result.map((name, index) => (
