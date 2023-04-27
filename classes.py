@@ -1,12 +1,9 @@
 from datetime import datetime
 
 import pytz
-from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 # format the timezone
 date_now = datetime.utcnow().replace(
@@ -71,28 +68,3 @@ class Reservation(db.Model):
             "start_date": self.loan_date,
             "end_date": self.end_date
         }
-
-
-@app.route("/api/persons")
-def get_persons():
-    persons = Person.query.all()
-    return jsonify([person.serialize for person in persons])
-
-
-@app.route("/api/games")
-def get_games():
-    games = Game.query.all()
-    return jsonify([game.serialize for game in games])
-
-
-@app.route("/api/reservations")
-def get_reservations():
-    reservations = Reservation.query.all()
-    return jsonify([reservation.serialize for reservation in reservations])
-
-
-with app.app_context():
-    db.create_all()
-
-if __name__ == "__main__":
-    app.run(debug=True)
