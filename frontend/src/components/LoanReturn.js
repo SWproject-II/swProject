@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useRef, useState } from "react";
 import Webcam from "react-webcam";
+import WelcomePage from "./WelcomePage";
 
 const LoanReturn = () => {
 
@@ -9,6 +10,7 @@ const LoanReturn = () => {
   const [showWebcam, setShowWebcam] = useState(false);
   const [screenshot, setScreenshot] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
+  const [welcomePage, setWelcomePage] = useState(false);
   const [result, setResult] = useState(null);
 
   const handleSubmit = (event) => {
@@ -16,7 +18,8 @@ const LoanReturn = () => {
     const formData = new FormData();
     formData.append("image", capturedImage);
     console.log("FORMDATA " + formData)
-    fetch("http://localhost:5002/predict", {
+    setScreenshot(null);
+    fetch("http://localhost:5002/auth", {
       method: "POST",
       body: formData,
     })
@@ -28,6 +31,7 @@ const LoanReturn = () => {
       .catch((error) => {
         console.error(error);
       });
+    setWelcomePage(true)
   };
 
   // Convert base64 image string to file object
@@ -84,13 +88,16 @@ const LoanReturn = () => {
           Send
         </Button>
       </div>
-      {result && (
+      {/* {result && (
         <ul>
           {result.map((name, index) => (
-            <li key={index}>{name}</li>
+            <li key={index}> Tervetuloa {name}</li>
           ))}
         </ul>
-      )}
+      )} */}
+      {welcomePage &&
+        <WelcomePage name={result}/>
+      }
     </div>
   );
 };

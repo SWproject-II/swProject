@@ -7,6 +7,7 @@ import ImageUploader from "./ImageUploader";
 import ContactPage from "./Contact";
 import AboutUsPage from "./AboutUs";
 import LoanReturn from "./LoanReturn";
+import WelcomePage from "./WelcomePage";
 
 export default function TabApp() {
   const [tab, setTab] = useState("Home");
@@ -23,6 +24,7 @@ export default function TabApp() {
         <Tab value="Image" label="Image upload" />
         <Tab value="Contact" label="Contact us" /> {/* Updated value here */}
         <Tab value="AboutUs" label="About us" />
+        <Tab value="WelcomePage" label="Welcome Page" />
       </Tabs>
       {tab === "Home" && (
         <div>
@@ -51,6 +53,7 @@ export default function TabApp() {
       {tab === "Image" && <ImageUploader />}
       {tab === "Contact" && <ContactPage />}
       {tab === "AboutUs" && <AboutUsPage />}
+      {tab === "WelcomePage" && <WelcomePage />}
     </div>
   );
 }
