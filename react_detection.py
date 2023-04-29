@@ -15,7 +15,6 @@ face_model = yolov5.load('face2.2.pt')
 game_model = yolov5.load('games2.2.pt')
 
 
-
 @app.route('/auth', methods=['POST'])
 def auth():
     # convert the request data to an image
@@ -47,15 +46,45 @@ def auth():
     return {'names': names}
 
 
-""" TODO !!!
-@app.route('/reservations', methods=['POST', 'GET'])
-def reservations():
-    person_id = Person.query.filter_by(name=face_detected).first()
-    ongoing_reservations = Reservation.query.filter_by(person_id=person_id.id).all()
+# get reservations for authenticated person
+@app.route('/reservations/<person_name>', methods=['POST', 'GET'])
+def person_reservations():
+    # query the database to get the Person object with the given name
+    person = Person.query.filter_by(name=person_name).first()
 
-    print(ongoing_reservations)
-    return ongoing_reservations
-"""
+    # check if the person exists in the database
+    if person is None:
+        return {'error': 'Person not found'}, 404
+
+    # get the person's ongoing reservations
+    ongoing_reservations = [r for r in person.reservations if r.end_date is None]
+
+    # return the ongoing reservations as a JSON object
+    return {'reservations': [{'game': r.game.name, 'loan_date': r.loan_date.isoformat()} for r in ongoing_reservations]}
+
+
+# make a new reservation
+@app.route('/reservations/<person_name>/<game_name>', methods=['POST'])
+def make_reservation(person_name, game_name):
+    # query the database to get the Person and Game objects
+    person = Person.query.filter_by(name=person_name).first()
+    game = Game.query.filter_by(name=game_name).first()
+
+    # check if the person and game exist in the database
+    if person is None or game is None:
+        return {'error': 'Person or game not found'}, 404
+
+    # check if the game is already reserved
+    if any(r.end_date is None and r.game == game for r in game.reservations):
+        return {'error': 'Game already reserved'}, 400
+
+    # create a new reservation and add it to the Person and Game objects
+    reservation = Reservation(person=person, game=game)
+    db.session.add(reservation)
+    db.session.commit()
+
+    # return a success response
+    return {'message': 'Reservation made successfully'}
 
 
 # API routes
@@ -79,7 +108,6 @@ def get_reservations():
 
 with app.app_context():
     db.create_all()
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5002)
