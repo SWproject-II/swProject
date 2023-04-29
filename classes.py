@@ -23,7 +23,14 @@ class Person(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name
+            "name": self.name,
+            "reservations": [
+                {
+                    "game_name": reservation.game.name,
+                    "loan_date": reservation.loan_date,
+                    "end_date": reservation.end_date
+                } for reservation in self.reservations
+            ]
         }
 
 
@@ -45,7 +52,14 @@ class Game(db.Model):
             "name": self.name,
             "genre": self.genre,
             "players": self.players,
-            "description": self.description
+            "description": self.description,
+            "reservations": [
+                {
+                    "person_name": reservation.person.name,
+                    "loan_date": reservation.loan_date,
+                    "end_date": reservation.end_date
+                } for reservation in self.reservations
+            ]
         }
 
 
@@ -54,7 +68,7 @@ class Reservation(db.Model):
     person_id = db.Column(db.Integer, db.ForeignKey("person.id"), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("game.id"), nullable=False)
     loan_date = db.Column(db.DateTime, default=date_now, nullable=False)
-    end_date = db.Column(db.DateTime, default=date_now)
+    end_date = db.Column(db.DateTime)
 
     def __repr__(self):
         return "<Reservation %r>" % self.username
@@ -63,8 +77,8 @@ class Reservation(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "person_id": self.person_id,
-            "game_id": self.game_id,
             "start_date": self.loan_date,
-            "end_date": self.end_date
+            "end_date": self.end_date,
+            "person_name": self.person.name,
+            "game_name": self.game.name
         }

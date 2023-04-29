@@ -3,7 +3,7 @@ from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import yolov5
-from classes import Reservation, Person, Game, db
+from classes import Reservation, Person, Game, db, date_now
 
 app = Flask(__name__)
 CORS(app)
@@ -15,6 +15,7 @@ face_model = yolov5.load('face2.2.pt')
 game_model = yolov5.load('games2.2.pt')
 
 
+# authenticate person with the face model
 @app.route('/auth', methods=['POST'])
 def auth():
     # convert the request data to an image
@@ -23,10 +24,10 @@ def auth():
     img = Image.open(io.BytesIO(img_bytes))
 
     # perform inference
-    results = face_model(img)
+    result = face_model(img)
 
     # parse results
-    pred = results.pandas().xyxy[0]
+    pred = result.pandas().xyxy[0]
     names = []
     for index, row in pred.iterrows():
         names.append(row['name'])
@@ -34,21 +35,41 @@ def auth():
     # log the predicted names
     print(names)
 
-    global face_detected
-    face_detected = names[0]
-
-    # log detected face
-    print(face_detected)
-
-    results.show()
+    result.show()
 
     # return the predicted bounding boxes as JSON
     return {'names': names}
 
 
+# authenticate game with the game model
+@app.route('/game_auth', methods=['POST'])
+def game_auth():
+    # convert the request data to an image
+    file = request.files['image']
+    img_bytes = file.read()
+    img = Image.open(io.BytesIO(img_bytes))
+
+    # perform inference
+    result = game_model(img)
+
+    # parse results
+    pred = result.pandas().xyxy[0]
+    game = []
+    for index, row in pred.iterrows():
+        game.append(row['game'])
+
+    # log the predicted game
+    print(game)
+
+    result.show()
+
+    # return the predicted bounding boxes as JSON
+    return {'game': game}
+
+
 # get reservations for authenticated person
-@app.route('/reservations/<person_name>', methods=['POST', 'GET'])
-def person_reservations():
+@app.route('/reservations/<string:person_name>', methods=['GET'])
+def person_reservations(person_name):
     # query the database to get the Person object with the given name
     person = Person.query.filter_by(name=person_name).first()
 
@@ -64,27 +85,63 @@ def person_reservations():
 
 
 # make a new reservation
-@app.route('/reservations/<person_name>/<game_name>', methods=['POST'])
-def make_reservation(person_name, game_name):
-    # query the database to get the Person and Game objects
+@app.route('/reserve', methods=['POST'])
+def reserve():
+    # parse the reservation data from the form
+    data = request.form
+    person_name = data.get('person_name')
+    game_name = data.get('game_name')
+
+    # retrieve the person and game objects from the database
     person = Person.query.filter_by(name=person_name).first()
     game = Game.query.filter_by(name=game_name).first()
 
-    # check if the person and game exist in the database
-    if person is None or game is None:
-        return {'error': 'Person or game not found'}, 404
+    if not person:
+        return jsonify({'error': 'Person not found'}), 404
 
-    # check if the game is already reserved
-    if any(r.end_date is None and r.game == game for r in game.reservations):
-        return {'error': 'Game already reserved'}, 400
+    if not game:
+        return jsonify({'error': 'Game not found'}), 404
 
-    # create a new reservation and add it to the Person and Game objects
-    reservation = Reservation(person=person, game=game)
+    # create a new reservation object and save it to the database
+    reservation = Reservation(person_id=person.id, game_id=game.id)
     db.session.add(reservation)
     db.session.commit()
 
-    # return a success response
-    return {'message': 'Reservation made successfully'}
+    return jsonify({'success': True}), 200
+
+
+# return a game
+@app.route('/return', methods=['POST'])
+def return_game():
+    # get person and game data from the request form
+    person_name = request.form['person_name']
+    game_name = request.form['game_name']
+
+    # find the person in the database
+    person = Person.query.filter_by(name=person_name).first()
+
+    if not person:
+        return {'error': f'Person {person_name} not found in the database'}
+
+    # find the game in the database
+    game = Game.query.filter_by(name=game_name).first()
+
+    if not game:
+        return {'error': f'Game {game_name} not found in the database'}
+
+    # find the ongoing reservation for this person and game
+    reservation = Reservation.query.filter_by(person_id=person.id, game_id=game.id, end_date=None).first()
+
+    if not reservation:
+        return {'error': f'No ongoing reservation found for {person_name} and {game_name}'}
+
+    # update the end date of the reservation to the current time
+    reservation.end_date = date_now
+
+    # commit changes to the database
+    db.session.commit()
+
+    return {'success': f'{person_name} has returned {game_name}'}
 
 
 # API routes
