@@ -42,15 +42,12 @@ def auth():
     return {'names': [name]}
 
 
-
 @app.route('/game_auth', methods=['POST'])
 def game_auth():
     # convert the request data to an image
     file = request.files['image']
     img_bytes = file.read()
     img = Image.open(io.BytesIO(img_bytes))
-
-    img.show()
 
     # perform inference
     result = game_model(img)
@@ -69,10 +66,9 @@ def game_auth():
     # log the predicted game
     print(game)
 
-    result.show()
-
     # return the predicted bounding boxes as JSON
     return {'game': game}
+
 
 # get reservations for authenticated person
 @app.route('/reservations/<string:person_name>', methods=['GET'])
@@ -88,7 +84,8 @@ def person_reservations(person_name):
     reservations = [r for r in person.reservations]
 
     # return the ongoing reservations as a JSON object
-    return {'reservations': [{'game': r.game.name, 'loan_date': r.loan_date, 'end_date': r.end_date} for r in reservations]}
+    return {
+        'reservations': [{'game': r.game.name, 'loan_date': r.loan_date, 'end_date': r.end_date} for r in reservations]}
 
 
 # make a new reservation
