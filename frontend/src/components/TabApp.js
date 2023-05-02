@@ -22,14 +22,12 @@ export default function TabApp() {
         <Tab value="Image" label="Image upload" />
         <Tab value="Contact" label="Contact us" /> {/* Updated value here */}
         <Tab value="AboutUs" label="About us" />
-        <Tab value="Res" label="Res" />
       </Tabs>
       {tab === "Home" && <LoanReturn />}
       {tab === "Reservations" && <Table />}
       {tab === "Image" && <ImageUploader />}
       {tab === "Contact" && <ContactPage />}
       {tab === "AboutUs" && <AboutUsPage />}
-      {tab === "Res" && <ReservationTable />}
     </div>
   );
 }
