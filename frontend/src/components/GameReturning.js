@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { useRef } from "react";
 import Webcam from "react-webcam";
-import ReserveButton from "./ReserveButton";
+import ReturnButton from "./ReturnButton";
 
 const GameReservation = (props) => {
   const webcamRef = useRef(null);
@@ -59,8 +59,8 @@ const GameReservation = (props) => {
 
   return (
     <div>
-      <h1>Game Reservation</h1>
-      <p>Scan the game to reserve it.</p>
+      <h1>Game Return</h1>
+      <p>Scan the game to return it.</p>
       <div>
         {showWebcam && (
           <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
@@ -84,9 +84,9 @@ const GameReservation = (props) => {
       </div>
       {result && (
         <div>
-          <h2>Reserved Game: {result} </h2>
+          <h2>Game to be returned: {result} </h2>
 
-          <ReserveButton personName={props.personName} gameName={result} />
+          <ReturnButton personName={props.personName} gameName={result} />
           {console.log(props.personName)}
         </div>
       )}

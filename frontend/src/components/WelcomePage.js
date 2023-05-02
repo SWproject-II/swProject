@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import ReservationTable from "./ReservationTable";
 import ReserveGame from "./ReserveGame";
+import GameReturning from "./GameReturning";
 
 const WelcomePage = (props) => {
   const [showReservations, setShowReservations] = useState(false);
   const [showReserveGame, setShowReserveGame] = useState(false);
+  const [showReturnGame, setShowReturnGame] = useState(false);
 
   const handleReservationsClick = () => {
     const personName = Array.isArray(props.name) ? props.name[0] : props.name;
@@ -23,6 +25,10 @@ const WelcomePage = (props) => {
 
   const handleReserveGameClick = () => {
     setShowReserveGame(true);
+  };
+
+  const handleReturnGameClick = () => {
+    setShowReturnGame(true);
   };
 
   const handleBackClick = () => {
@@ -56,21 +62,34 @@ const WelcomePage = (props) => {
             Reserve a game
           </Button>
 
-          <Button variant="contained" color="success">
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleReturnGameClick}
+          >
             Return a game
           </Button>
         </>
+      )}
+      {showReturnGame && (
+        <GameReturning
+          personName={props.name}
+          onClose={() => setShowReturnGame(false)}
+        />
       )}
       {showReservations && (
         <Button variant="contained" color="secondary" onClick={handleBackClick}>
           Back
         </Button>
       )}
-      <Button variant="contained" color="warning" onClick={handleLogoutClick}>
-        Log Out
+      <Button variant="contained" color="warning" onClick={handleBackClick}>
+        Back
       </Button>
       {showReserveGame && (
-        <ReserveGame onClose={() => setShowReserveGame(false)} />
+        <ReserveGame
+          personName={props.name}
+          onClose={() => setShowReserveGame(false)}
+        />
       )}
     </div>
   );

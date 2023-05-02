@@ -50,7 +50,6 @@ def game_auth():
     img_bytes = file.read()
     img = Image.open(io.BytesIO(img_bytes))
 
-    img.show()
 
     # perform inference
     result = game_model(img)
@@ -68,8 +67,6 @@ def game_auth():
 
     # log the predicted game
     print(game)
-
-    result.show()
 
     # return the predicted bounding boxes as JSON
     return {'game': game}
@@ -91,17 +88,17 @@ def person_reservations(person_name):
     return {'reservations': [{'game': r.game.name, 'loan_date': r.loan_date, 'end_date': r.end_date} for r in reservations]}
 
 
-# make a new reservation
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    # parse the reservation data from the form
-    data = request.form
+    # parse the reservation data from the request body
+    data = request.get_json()
     person_name = data.get('person_name')
     game_name = data.get('game_name')
-
+    print(person_name[0])
+    print(game_name[0])
     # retrieve the person and game objects from the database
-    person = Person.query.filter_by(name=person_name).first()
-    game = Game.query.filter_by(name=game_name).first()
+    person = Person.query.filter_by(name=person_name[0]).first()
+    game = Game.query.filter_by(name=game_name[0]).first()
 
     if not person:
         return jsonify({'error': 'Person not found'}), 404
@@ -121,17 +118,20 @@ def reserve():
 @app.route('/return', methods=['POST'])
 def return_game():
     # get person and game data from the request form
-    person_name = request.form['person_name']
-    game_name = request.form['game_name']
+    data = request.get_json()
+    person_name = data.get('person_name')
+    game_name = data.get('game_name')
+    print(person_name[0])
+    print(game_name[0])
 
     # find the person in the database
-    person = Person.query.filter_by(name=person_name).first()
+    person = Person.query.filter_by(name=person_name[0]).first()
 
     if not person:
         return {'error': f'Person {person_name} not found in the database'}
 
     # find the game in the database
-    game = Game.query.filter_by(name=game_name).first()
+    game = Game.query.filter_by(name=game_name[0]).first()
 
     if not game:
         return {'error': f'Game {game_name} not found in the database'}
