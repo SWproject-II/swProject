@@ -51,17 +51,13 @@ export default function Table() {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetch(ResApi)
-        .then((response) => {
-          if (response.ok) return response.json();
-          else alert("error");
-        })
-        .then((data) => setReservations(data))
-        .catch((err) => console.error(err));
-    }, 1000); // change to 60000 for once per minute
-
-    return () => clearInterval(interval);
+    fetch(ResApi)
+      .then((response) => {
+        if (response.ok) return response.json();
+        else alert("error");
+      })
+      .then((data) => setReservations(data))
+      .catch((err) => console.error(err));
   }, []);
 
   return (
