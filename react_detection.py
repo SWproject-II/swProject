@@ -80,10 +80,10 @@ def person_reservations(person_name):
         return {'error': 'Person not found'}, 404
 
     # get the person's ongoing reservations
-    ongoing_reservations = [r for r in person.reservations if r.end_date is None]
+    reservations = [r for r in person.reservations]
 
     # return the ongoing reservations as a JSON object
-    return {'reservations': [{'game': r.game.name, 'loan_date': r.loan_date.isoformat()} for r in ongoing_reservations]}
+    return {'reservations': [{'game': r.game.name, 'loan_date': r.loan_date, 'end_date': r.end_date} for r in reservations]}
 
 
 # make a new reservation
