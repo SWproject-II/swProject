@@ -5,7 +5,6 @@ import Webcam from "react-webcam";
 import WelcomePage from "./WelcomePage";
 
 const LoanReturn = () => {
-
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [screenshot, setScreenshot] = useState(null);
@@ -17,7 +16,7 @@ const LoanReturn = () => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("image", capturedImage);
-    console.log("FORMDATA " + formData)
+    console.log("FORMDATA " + formData);
     setScreenshot(null);
     fetch("http://localhost:5002/auth", {
       method: "POST",
@@ -31,13 +30,13 @@ const LoanReturn = () => {
       .catch((error) => {
         console.error(error);
       });
-    setWelcomePage(true)
+    setWelcomePage(true);
   };
 
   // Convert base64 image string to file object
   const dataURItoBlob = (dataURI) => {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const byteString = atob(dataURI.split(",")[1]);
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
     for (let i = 0; i < byteString.length; i++) {
@@ -57,34 +56,37 @@ const LoanReturn = () => {
     } else {
       setShowWebcam(true);
       setScreenshot(null); // reset the screenshot when the camera is opened again
-      setCapturedImage(null)
+      setCapturedImage(null);
     }
   };
 
   const handleReturn = () => {
     setShowWebcam(false);
-
-  }
-
+  };
 
   return (
     <div>
       <h1>Loan or return a board game</h1>
-      <p>
-        You can loan a board game here or return one.
-      </p>
+      <p>You can loan a board game here or return one.</p>
       <div>
-        {showWebcam && <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />}
+        {showWebcam && (
+          <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
+        )}
         {screenshot && (
           <img src={screenshot} alt="screenshot" style={{ maxWidth: "100%" }} />
         )}
       </div>
       <div>
         <Button variant="contained" color="success" onClick={handleLoan}>
-          {showWebcam ? "Take Picture" : "Loan"}
+          {showWebcam ? "Take Picture" : "Authenticate"}
         </Button>
         {/* <Button variant="contained" color="error" onPress={handleReturn}>Return</Button> */}
-        <Button variant="contained" color="success" disabled={capturedImage === null} onClick={handleSubmit}>
+        <Button
+          variant="contained"
+          color="success"
+          disabled={capturedImage === null}
+          onClick={handleSubmit}
+        >
           Send
         </Button>
       </div>
@@ -95,9 +97,7 @@ const LoanReturn = () => {
           ))}
         </ul>
       )} */}
-      {welcomePage &&
-        <WelcomePage name={result}/>
-      }
+      {welcomePage && <WelcomePage name={result} />}
     </div>
   );
 };
