@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Face from "./Face";
 import Table from "./Table";
 import ImageUploader from "./ImageUploader";
 import ContactPage from "./Contact";
 import AboutUsPage from "./AboutUs";
 import LoanReturn from "./LoanReturn";
-import WelcomePage from "./WelcomePage";
 
 export default function TabApp() {
   const [tab, setTab] = useState("Home");
@@ -19,12 +17,10 @@ export default function TabApp() {
     <div>
       <Tabs value={tab} onChange={handleChange}>
         <Tab value="Home" label="Home" />
-        <Tab value="Face" label="Facial recognition" />
-        <Tab value="Test" label="Test data" />
+        <Tab value="Reservations" label="Reservations" />
         <Tab value="Image" label="Image upload" />
         <Tab value="Contact" label="Contact us" /> {/* Updated value here */}
         <Tab value="AboutUs" label="About us" />
-        <Tab value="WelcomePage" label="Welcome Page" />
       </Tabs>
       {tab === "Home" && (
         <div>
@@ -48,12 +44,10 @@ export default function TabApp() {
           <LoanReturn />
         </div>
       )}
-      {tab === "Face" && <Face />}
-      {tab === "Test" && <Table />}
+      {tab === "Reservations" && <Table />}
       {tab === "Image" && <ImageUploader />}
       {tab === "Contact" && <ContactPage />}
       {tab === "AboutUs" && <AboutUsPage />}
-      {tab === "WelcomePage" && <WelcomePage />}
     </div>
   );
 }
