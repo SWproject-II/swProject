@@ -33,7 +33,16 @@ export default function Table() {
     },
     {
       name: "Start Date",
-      selector: (row) => row.start_date,
+      selector: (row) => new Date(row.start_date).toLocaleDateString(),
+      sortable: true,
+      center: true,
+      reorder: true,
+      style: { fontWeight: "bold" },
+    },
+    {
+      name: "End Date",
+      selector: (row) =>
+        row.end_date ? new Date(row.end_date).toLocaleDateString() : "",
       sortable: true,
       center: true,
       reorder: true,
@@ -61,4 +70,3 @@ export default function Table() {
     </div>
   );
 }
-
