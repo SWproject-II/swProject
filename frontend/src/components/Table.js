@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { MOCK_API } from "../Constants";
+import { ResApi } from "../Constants";
 
 export default function Table() {
-  const [test, setTest] = useState([]);
+  const [reservations, setReservations] = useState([]);
 
   const columns = [
     {
@@ -16,47 +16,39 @@ export default function Table() {
       style: { background: "lightblue", fontWeight: "bold" },
     },
     {
-      name: "Name",
-      selector: (row) => row.name,
+      name: "Person Name",
+      selector: (row) => row.person_name,
       sortable: true,
       center: true,
       reorder: true,
       style: { fontWeight: "bold" },
     },
     {
-      name: "Age",
-      selector: (row) => row.age,
+      name: "Game Name",
+      selector: (row) => row.game_name,
       sortable: true,
       center: true,
       reorder: true,
       style: { background: "lightblue", fontWeight: "bold" },
     },
     {
-      name: "GitHub",
-      selector: (row) => row.github,
+      name: "Start Date",
+      selector: (row) => row.start_date,
       sortable: true,
       center: true,
       reorder: true,
       style: { fontWeight: "bold" },
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-      center: true,
-      reorder: true,
-      style: { background: "lightblue", fontWeight: "bold" },
     },
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch(MOCK_API)
+      fetch(ResApi)
         .then((response) => {
           if (response.ok) return response.json();
           else alert("error");
         })
-        .then((data) => setTest(data.faces))
+        .then((data) => setReservations(data))
         .catch((err) => console.error(err));
     }, 1000); // change to 60000 for once per minute
 
@@ -65,7 +57,8 @@ export default function Table() {
 
   return (
     <div className="container mt-5">
-      <DataTable columns={columns} data={test}></DataTable>
+      <DataTable columns={columns} data={reservations}></DataTable>
     </div>
   );
 }
+
