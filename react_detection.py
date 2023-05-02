@@ -15,7 +15,6 @@ face_model = yolov5.load('face2.2.pt')
 game_model = yolov5.load('games2.2.pt')
 
 
-# authenticate person with the face model
 @app.route('/auth', methods=['POST'])
 def auth():
     # convert the request data to an image
@@ -28,17 +27,20 @@ def auth():
 
     # parse results
     pred = result.pandas().xyxy[0]
-    names = []
-    for index, row in pred.iterrows():
-        names.append(row['name'])
 
-    # log the predicted names
-    print(names)
+    # filter out duplicate detections and keep only the one with the highest confidence
+    pred = pred.drop_duplicates(subset=['name'], keep='first')
 
-    result.show()
+    # get the predicted name and confidence
+    name = pred.iloc[0]['name']
+    confidence = pred.iloc[0]['confidence']
 
-    # return the predicted bounding boxes as JSON
-    return {'names': names}
+    # log the predicted name and confidence
+    print(f'Name: {name}, Confidence: {confidence}')
+
+    # return the predicted name as JSON
+    return {'names': [name]}
+
 
 
 # authenticate game with the game model
