@@ -43,7 +43,6 @@ def auth():
 
 
 
-# authenticate game with the game model
 @app.route('/game_auth', methods=['POST'])
 def game_auth():
     # convert the request data to an image
@@ -51,14 +50,21 @@ def game_auth():
     img_bytes = file.read()
     img = Image.open(io.BytesIO(img_bytes))
 
+    img.show()
+
     # perform inference
     result = game_model(img)
 
     # parse results
     pred = result.pandas().xyxy[0]
+
+    pred = pred.drop_duplicates(subset=['name'], keep='first')
+
+    print(pred)  # Add this line to print the prediction output
+
     game = []
     for index, row in pred.iterrows():
-        game.append(row['game'])
+        game.append(row['name'])
 
     # log the predicted game
     print(game)
@@ -67,7 +73,6 @@ def game_auth():
 
     # return the predicted bounding boxes as JSON
     return {'game': game}
-
 
 # get reservations for authenticated person
 @app.route('/reservations/<string:person_name>', methods=['GET'])

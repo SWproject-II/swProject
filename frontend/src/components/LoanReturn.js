@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Webcam from "react-webcam";
 import WelcomePage from "./WelcomePage";
 
@@ -64,41 +64,62 @@ const LoanReturn = () => {
     setShowWebcam(false);
   };
 
+  const handleLogout = () => {
+    setWelcomePage(false);
+    setShowWebcam(false);
+    setResult(null);
+  };
+
   return (
-    <div>
-      <h1>Loan or return a board game</h1>
-      <p>You can loan a board game here or return one.</p>
-      <div>
-        {showWebcam && (
-          <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
-        )}
-        {screenshot && (
-          <img src={screenshot} alt="screenshot" style={{ maxWidth: "100%" }} />
-        )}
-      </div>
-      <div>
-        <Button variant="contained" color="success" onClick={handleLoan}>
-          {showWebcam ? "Take Picture" : "Authenticate"}
-        </Button>
-        {/* <Button variant="contained" color="error" onPress={handleReturn}>Return</Button> */}
-        <Button
-          variant="contained"
-          color="success"
-          disabled={capturedImage === null}
-          onClick={handleSubmit}
-        >
-          Send
-        </Button>
-      </div>
-      {/* {result && (
-        <ul>
-          {result.map((name, index) => (
-            <li key={index}> Tervetuloa {name}</li>
-          ))}
-        </ul>
-      )} */}
-      {welcomePage && <WelcomePage name={result} />}
-    </div>
+    <>
+      {welcomePage ? (
+        <WelcomePage name={result} />
+      ) : (
+        <div>
+          <h1>Loan or return a board game</h1>
+          <p>You can loan a board game here or return one.</p>
+          <div>
+            {showWebcam && (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+              />
+            )}
+            {screenshot && (
+              <img
+                src={screenshot}
+                alt="screenshot"
+                style={{ maxWidth: "100%" }}
+              />
+            )}
+          </div>
+          <div>
+            <Button variant="contained" color="success" onClick={handleLoan}>
+              {showWebcam ? "Take Picture" : "Authenticate"}
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              disabled={capturedImage === null}
+              onClick={handleSubmit}
+            >
+              Send
+            </Button>
+            {welcomePage && (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleLogout}
+              >
+                Log out
+              </Button>
+            )}
+          </div>
+          {welcomePage && <WelcomePage name={result} />}
+        </div>
+      )}
+    </>
   );
 };
 

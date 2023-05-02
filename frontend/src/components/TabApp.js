@@ -24,28 +24,7 @@ export default function TabApp() {
         <Tab value="AboutUs" label="About us" />
         <Tab value="Res" label="Res" />
       </Tabs>
-      {tab === "Home" && (
-        <div>
-          <div
-            style={{
-              textAlign: "center",
-              color: "white",
-              backgroundColor: "black",
-              height: "80px",
-              top: 0,
-              fontSize: 40,
-            }}
-          >
-            {" "}
-            This is homepage{" "}
-          </div>
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
-            {/* Normal text added below */}
-            <p>This is some normal text under the homepage text.</p>
-          </div>
-          <LoanReturn />
-        </div>
-      )}
+      {tab === "Home" && <LoanReturn />}
       {tab === "Reservations" && <Table />}
       {tab === "Image" && <ImageUploader />}
       {tab === "Contact" && <ContactPage />}
