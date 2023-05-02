@@ -1,16 +1,22 @@
 import sqlite3
 
 # Connect to the database
-conn = sqlite3.connect('mydatabase.db')
+conn = sqlite3.connect('instance/database.db')
 
-# Get the cursor
+# Create a cursor object
 cursor = conn.cursor()
 
+# Define the update query
+update_query = """UPDATE game
+                  SET name = 'Ticket to Ride'
+                  WHERE id = 5"""
 
-cursor.execute("DELETE FROM reservation;")
+# Execute the update query
+cursor.execute(update_query)
 
-# Commit the changes
+# Commit the changes to the database
 conn.commit()
 
-# Close the connection
+# Close the cursor and database connection
+cursor.close()
 conn.close()
