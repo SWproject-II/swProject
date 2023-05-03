@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to the database
-conn = sqlite3.connect('instance/database.db')
+conn = sqlite3.connect('../instance/database.db')
 
 # Get the cursor
 cursor = conn.cursor()

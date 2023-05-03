@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { ResApi } from "../Constants";
 
-export default function ReservationTable(props) {
+const ReservationTable = (props) => {
   const [reservations, setReservations] = useState([]);
 
   const columns = [
@@ -41,11 +40,13 @@ export default function ReservationTable(props) {
       })
       .then((data) => setReservations(data.reservations))
       .catch((err) => console.error(err));
-  }, []);
+  });
 
   return (
     <div className="container mt-5">
       <DataTable columns={columns} data={reservations}></DataTable>
     </div>
   );
-}
+};
+
+export default ReservationTable;

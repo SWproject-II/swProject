@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import ReservationTable from "./ReservationTable";
 import ReserveGame from "./ReserveGame";
-import GameReturning from "./GameReturning";
+import ReturnGame from "./ReturnGame";
 
 const WelcomePage = (props) => {
   const [showReservations, setShowReservations] = useState(false);
@@ -41,11 +41,6 @@ const WelcomePage = (props) => {
     setShowReservations(false);
   };
 
-  const handleLogoutClick = () => {
-    setShowReservations(false);
-    props.onLogout();
-  };
-
   return (
     <div>
       <h1>Welcome {props.name} </h1>
@@ -64,6 +59,7 @@ const WelcomePage = (props) => {
             variant="contained"
             color="success"
             onClick={handleReserveGameClick}
+            style={{ marginLeft: "10px", marginRight: "10px" }}
           >
             Reserve a game
           </Button>
@@ -78,7 +74,7 @@ const WelcomePage = (props) => {
         </>
       )}
       {showReturnGame && (
-        <GameReturning
+        <ReturnGame
           personName={props.name}
           onClose={() => setShowReturnGame(false)}
         />

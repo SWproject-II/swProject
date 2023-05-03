@@ -65,7 +65,10 @@ class Game(db.Model):
 
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    person_id = db.Column(db.Integer, db.ForeignKey("person.id"), nullable=False)
+    person_id = db.Column(
+        db.Integer,
+        db.ForeignKey("person.id"),
+        nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("game.id"), nullable=False)
     loan_date = db.Column(db.DateTime, default=date_now, nullable=False)
     end_date = db.Column(db.DateTime)

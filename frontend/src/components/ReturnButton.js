@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-const ReserveButton = ({ personName, gameName }) => {
+const ReturnButton = ({ personName, gameName }) => {
   const handleReturn = () => {
     fetch("http://localhost:5002/return", {
       method: "POST",
@@ -33,4 +33,4 @@ const ReserveButton = ({ personName, gameName }) => {
   );
 };
 
-export default ReserveButton;
+export default ReturnButton;

@@ -60,10 +60,6 @@ const LoanReturn = () => {
     }
   };
 
-  const handleReturn = () => {
-    setShowWebcam(false);
-  };
-
   const handleLogout = () => {
     setWelcomePage(false);
     setShowWebcam(false);
@@ -95,7 +91,12 @@ const LoanReturn = () => {
             )}
           </div>
           <div>
-            <Button variant="contained" color="success" onClick={handleLoan}>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleLoan}
+              style={{ marginRight: "10px" }}
+            >
               {showWebcam ? "Take Picture" : "Authenticate"}
             </Button>
             <Button

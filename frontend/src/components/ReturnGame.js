@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Webcam from "react-webcam";
 import ReturnButton from "./ReturnButton";
 
-const GameReservation = (props) => {
+const ReturnGame = (props) => {
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [screenshot, setScreenshot] = useState(null);
@@ -70,7 +70,12 @@ const GameReservation = (props) => {
         )}
       </div>
       <div>
-        <Button variant="contained" color="success" onClick={handleCapture}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={handleCapture}
+          style={{ marginRight: "10px" }}
+        >
           {showWebcam ? "Take Picture" : "Capture Game"}
         </Button>
         <Button
@@ -94,4 +99,4 @@ const GameReservation = (props) => {
   );
 };
 
-export default GameReservation;
+export default ReturnGame;

@@ -1,8 +1,10 @@
 import yolov5
 import cv2
 
+# for model testing purposes
+
 # load pretrained model
-model = yolov5.load('games2.2.pt')
+model = yolov5.load("../games2.2.pt")
 
 # Create a window to display the webcam feed
 cv2.namedWindow("Webcam")
@@ -32,7 +34,7 @@ cap.release()
 # Close the window
 cv2.destroyAllWindows()
 # set image
-img = 'webcam_photo.jpg'
+img = "webcam_photo.jpg"
 
 # perform inference
 results = model(img)
@@ -54,11 +56,11 @@ print(results.pandas().xyxy[0])
 pred = results.pandas().xyxy[0]
 names = []
 for index, row in pred.iterrows():
-    names.append(row['name'])
+    names.append(row["name"])
 
 print(names)
 
 # show detection bounding boxes on image
 results.show()
 # save results into "results/" folder
-# results.save(save_dir='')
+# results.save(save_dir="")
