@@ -16,7 +16,7 @@ const TabApp = () => {
       <Tabs value={tab} onChange={handleChange}>
         <Tab value="Home" label="Home" />
         <Tab value="Reservations" label="Reservations" />
-        <Tab value="AboutUs" label="About us" />
+        <Tab value="AboutUs" label="About" />
       </Tabs>
       {tab === "Home" && <LoanReturn />}
       {tab === "Reservations" && <Table />}
