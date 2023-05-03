@@ -40,7 +40,7 @@ const ReservationTable = (props) => {
       })
       .then((data) => setReservations(data.reservations))
       .catch((err) => console.error(err));
-  });
+  }, []);
 
   return (
     <div
