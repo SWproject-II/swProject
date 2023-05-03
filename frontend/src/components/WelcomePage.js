@@ -19,16 +19,22 @@ const WelcomePage = (props) => {
       })
       .then((data) => {
         setShowReservations(true);
+        setShowReturnGame(false);
+        setShowReserveGame(false);
       })
       .catch((err) => console.error(err));
   };
 
   const handleReserveGameClick = () => {
     setShowReserveGame(true);
+    setShowReturnGame(false);
+    setShowReservations(false);
   };
 
   const handleReturnGameClick = () => {
     setShowReturnGame(true);
+    setShowReserveGame(false);
+    setShowReservations(false);
   };
 
   const handleBackClick = () => {
@@ -42,7 +48,7 @@ const WelcomePage = (props) => {
 
   return (
     <div>
-      <h1>Tervetuloa {props.name} </h1>
+      <h1>Welcome {props.name} </h1>
       {showReservations ? (
         <ReservationTable personName={props.name} />
       ) : (
@@ -82,9 +88,7 @@ const WelcomePage = (props) => {
           Back
         </Button>
       )}
-      <Button variant="contained" color="warning" onClick={handleBackClick}>
-        Back
-      </Button>
+
       {showReserveGame && (
         <ReserveGame
           personName={props.name}

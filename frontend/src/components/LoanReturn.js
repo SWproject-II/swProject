@@ -77,7 +77,7 @@ const LoanReturn = () => {
       ) : (
         <div>
           <h1>Loan or return a board game</h1>
-          <p>You can loan a board game here or return one.</p>
+          <p>Start by authenticating below:</p>
           <div>
             {showWebcam && (
               <Webcam
