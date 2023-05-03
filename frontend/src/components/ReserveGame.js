@@ -89,7 +89,7 @@ const ReserveGame = (props) => {
       </div>
       {result && (
         <div>
-          <h2>Reserved Game: {result} </h2>
+          <h2>Game to be reserved: {result} </h2>
 
           <ReserveButton personName={props.personName} gameName={result} />
           {console.log(props.personName)}

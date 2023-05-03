@@ -28,7 +28,7 @@ const ReservationTable = (props) => {
       sortable: true,
       center: true,
       reorder: true,
-      style: { fontWeight: "bold" },
+      style: { background: "lightblue", fontWeight: "bold" },
     },
   ];
 
@@ -43,7 +43,10 @@ const ReservationTable = (props) => {
   });
 
   return (
-    <div className="container mt-5">
+    <div
+      className="container mt-5"
+      style={{ marginLeft: "50px", marginRight: "50px" }}
+    >
       <DataTable columns={columns} data={reservations}></DataTable>
     </div>
   );
