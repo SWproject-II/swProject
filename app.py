@@ -17,6 +17,7 @@ face_model = yolov5.load("face2.2.pt")
 game_model = yolov5.load("games2.2.pt")
 
 
+# authenticate the person
 @app.route("/auth", methods=["POST"])
 def auth():
     # convert the request data to an image
@@ -45,6 +46,7 @@ def auth():
     return {"names": [name]}
 
 
+# authenticate the game
 @app.route("/game_auth", methods=["POST"])
 def game_auth():
     # convert the request data to an image
@@ -91,6 +93,7 @@ def person_reservations(person_name):
         "reservations": [{"game": r.game.name, "loan_date": r.loan_date, "end_date": r.end_date} for r in reservations]}
 
 
+# reserve a game
 @app.route("/reserve", methods=["POST"])
 def reserve():
     # parse the reservation data from the request body
@@ -176,6 +179,7 @@ def get_reservations():
     return jsonify([reservation.serialize for reservation in reservations])
 
 
+# create db if not created already
 with app.app_context():
     db.create_all()
 
