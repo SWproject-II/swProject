@@ -59,7 +59,36 @@ If you want to try this implementation out, proceed as follows:
  You need to train your own model to handle the computer vision implementation since using our models would not yield desirable results. You can do so by heading over to [Roboflow](https://www.roboflow.com). Quick overview of the process: you need to create a project, upload images for annotation, and label what is inside each annotation. For further information read Roboflow's [docs](https://docs.roboflow.com/).
  
 Lastly, you need to train the model with YOLOv5 (if you are using the same technologies as we were). Our team used [this notebook](https://colab.research.google.com/github/roboflow-ai/yolov5-custom-training-tutorial/blob/main/yolov5-custom-training.ipynb#scrollTo=FwJcaoPGF4VI) for the training part. This generates a .pt file that functions as the model that is used for recognition. For further information and troubleshooting, check out the [YOLOv5 docs](https://docs.ultralytics.com/yolov5/).
- 
+
+### Usage demo
+Screenshots to visualize the usage:
+
+![alt text](/demoimages/index.JPG)
+
+Authenticate button opens the webcam and let's the user to submit their face for the recognition model. If the model recognizes the user, they are presented with a few options:
+
+![alt text](/demoimages/welcome.JPG)
+
+Clicking "own reservations" fetches the user's reservation history from the backend API:
+
+![alt text](/demoimages/restable.JPG)
+
+Absent end date value in the table means that the reservation is still ongoing. Alternatively, by clicking "reserve a game", the user is presented with the option to open the webcam again for scanning the board game:
+
+![alt text](/demoimages/scangame.JPG)
+
+After a successful scan and reservation request the user is greeted with an alert:
+
+![alt text](/demoimages/successres.JPG)
+
+This adds the reservation details to the database. When returning the game, the process is similar, but this time the end date of the reservation is updated from null to the date the return is successfully submitted:
+
+![alt text](/demoimages/successreturn.JPG)
+
+Updated view of the table:
+
+![alt text](/demoimages/updatedrestable.JPG)
+
 
 
 ## ⛏ Development team
